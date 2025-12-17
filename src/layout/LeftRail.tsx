@@ -1,3 +1,4 @@
+import { useUiStore } from "@/store/useUiStore"
 import {
     Boxes,
     LayoutGrid,
@@ -6,7 +7,11 @@ import {
 
 import { FaGithub, FaBuffer } from "react-icons/fa"
 import { SiPostgresql, SiMongodb } from "react-icons/si"
-
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 
 const navItems = [
@@ -20,25 +25,34 @@ const navItems = [
 ]
 
 export default function LeftRail() {
+    const { setSelectedApp, selectedApp } = useUiStore()
+    const handleSelectApp = (app: string) => {
+        setSelectedApp(app)
+    }
+
     return (
         <aside className="h-full w-14 flex flex-col items-center bg-black rounded-lg py-3 border-r border-border">
             <div className="flex flex-col gap-2">
-                {navItems.map((item, index) => {
+                {navItems.map((item, _) => {
                     const Icon = item.icon
-                    const active = index === 0
-
                     return (
-                        <h1
-                            key={item.id}
-                        // className={clsx(
-                        //     "w-10 h-10 rounded-lg flex  items-center justify-center ",
-                        //     active
-                        //         ? "bg-primary text-primary-foreground"
-                        //         : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                        // )}
-                        >
-                            <Icon className={`text-3xl my-3  ${item.color}`} />
-                        </h1>
+                        <Tooltip key={item.id}>
+                            <TooltipTrigger asChild>
+                                <h1
+
+                                    onClick={() => handleSelectApp(item.id)}
+                                    className="hover:shadow-lg hover:shadow-green-300 hover:cursor-pointer p-2 rounded-lg"
+
+                                >
+                                    <Icon className={`text-3xl my-3  ${item.color}`} />
+                                </h1>
+
+                            </TooltipTrigger>
+                            <TooltipContent sideOffset={2}>
+                                <p>{item.id}</p>
+                            </TooltipContent>
+                        </Tooltip>
+
                     )
                 })}
             </div>
