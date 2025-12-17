@@ -1,4 +1,4 @@
-import { initialNodes } from '@/canvas/nodes/ServiceNode';
+import { initialNodes } from '@/canvas/nodes';
 import { http, HttpResponse } from 'msw';
 
 export const handlers = [

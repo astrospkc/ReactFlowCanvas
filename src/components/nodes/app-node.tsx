@@ -1,4 +1,4 @@
-import { type Node, type NodeProps, Position, useReactFlow } from '@xyflow/react';
+import { type NodeProps, Position, useReactFlow } from '@xyflow/react';
 import { useCallback } from 'react';
 
 import {
@@ -8,51 +8,20 @@ import {
     BaseNodeHeader,
     BaseNodeHeaderTitle,
 } from '../base-node';
+
+
 import { LabeledHandle } from '../labeled-handle';
 import { EllipsisVertical } from 'lucide-react';
 import { Button } from '../ui/button';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
+import clsx from "clsx"
 
-    DropdownMenuLabel,
-    DropdownMenuTrigger,
-} from '../ui/dropdown-menu';
-
-
-
-export type Details = {
-    icon: React.ReactNode,
-    service: string,
-    rate: string,
-    metrics: {
-        cpu: number,
-        memory: string,
-        disk: string,
-        region: number
-    },
-    activeMetric: "CPU" | "Memory" | "Disk" | "Region",
-    slider: {
-        min: number,
-        max: number,
-        value: number,
-        unit: string
-    },
-    status: {
-        label: string,
-        type: "healthy" | "unhealthy"
-    },
-    provider: string
-}
-export type AppNode = Node<{
-    details: Details;
-}>;
-
-
+import type { AppNode } from '@/types/types';
 
 
 
 export function AppNode({ id, data }: NodeProps<AppNode>) {
+
+    console.log("data in app node: ", data.service)
     const { updateNodeData, setNodes } = useReactFlow();
 
     const handleReset = useCallback(() => {
@@ -72,40 +41,95 @@ export function AppNode({ id, data }: NodeProps<AppNode>) {
     }, []);
 
     return (
-        <BaseNode className='bg-slate-800'>
-            <BaseNodeHeader className="border-b">
-                <span>{data.details.icon}</span>
-                <BaseNodeHeaderTitle>{data.details.service}</BaseNodeHeaderTitle>
+        <>
+            <BaseNode className="bg-black text-white w-[340px] rounded-xl">
 
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button
-                            variant="ghost"
-                            className="nodrag p-1"
-                            aria-label="Node Actions"
-                            title="Node Actions"
+                {/* Header */}
+                <BaseNodeHeader className="flex items-center justify-between border-b border-neutral-800">
+                    <div className="flex items-center gap-2">
+                        <div
+                            className="w-7 h-7 flex items-center justify-center rounded"
+                        // style={{ backgroundColor: data.iconBg }}
                         >
+                            {data.icon}
+                        </div>
+                        <BaseNodeHeaderTitle>{data.service}</BaseNodeHeaderTitle>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                        <span className="px-2 py-0.5 text-xs rounded border border-green-500 text-green-400">
+                            {data.rate}
+                        </span>
+                        <Button variant="ghost" className="nodrag p-1">
                             <EllipsisVertical className="size-4" />
                         </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                        <DropdownMenuLabel className="font-bold">Applications</DropdownMenuLabel>
+                    </div>
+                </BaseNodeHeader>
 
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            </BaseNodeHeader>
+                {/* Content */}
+                <BaseNodeContent className="space-y-3">
+                    <div className="grid grid-cols-4 text-xs text-neutral-400">
+                        <span>{data.metrics.cpu}</span>
+                        <span>{data.metrics.memory}</span>
+                        <span>{data.metrics.disk}</span>
+                        <span>{data.metrics.region}</span>
+                    </div>
 
-            <BaseNodeContent>
-                <div className="flex gap-2 items-center">
-                    <Button onClick={handleDecr}>-</Button>
-                    {/* <pre>{String(data.value).padStart(3, ' ')}</pre> */}
-                    <Button onClick={handleIncr}>+</Button>
-                </div>
-            </BaseNodeContent>
+                    <div className="flex gap-1 bg-neutral-800 rounded-lg p-1 text-xs">
+                        {["CPU", "Memory", "Disk", "Region"].map(tab => (
+                            <button
+                                key={tab}
+                                className={clsx(
+                                    "flex-1 py-1 rounded-md",
+                                    data.activeMetric === tab
+                                        ? "bg-white text-black"
+                                        : "text-neutral-400"
+                                )}
+                            >
+                                {tab}
+                            </button>
+                        ))}
+                    </div>
 
-            <BaseNodeFooter className="bg-gray-100 items-end px-0 py-1 w-full  rounded-b-md">
-                <LabeledHandle title="out" type="source" position={Position.Right} />
-            </BaseNodeFooter>
-        </BaseNode>
+                    <div className="flex items-center gap-2">
+                        <input
+                            type="range"
+                            min={data.slider.min}
+                            max={data.slider.max}
+                            value={data.slider.value}
+                            readOnly
+                            className="flex-1 accent-blue-500"
+                        />
+                        <input
+                            type="number"
+                            value={data.slider.value / 100}
+                            readOnly
+                            className="w-14 bg-neutral-800 rounded px-2 py-1 text-xs"
+                        />
+                    </div>
+                </BaseNodeContent>
+
+                {/* Footer */}
+                <BaseNodeFooter className="flex items-center justify-between px-3 py-2 border-t border-neutral-800">
+                    <span
+                        className={clsx(
+                            "px-2 py-0.5 text-xs rounded",
+                            data.status.type === "healthy"
+                                ? "bg-green-900 text-green-400"
+                                : "bg-red-900 text-red-400"
+                        )}
+                    >
+                        ● {data.status.label}
+                    </span>
+
+                    <span className="text-orange-400 font-semibold text-sm">
+                        {data.provider.toUpperCase()}
+                    </span>
+
+                    <LabeledHandle title="out" type="source" position={Position.Right} />
+                </BaseNodeFooter>
+            </BaseNode>
+        </>
+
     );
 }
