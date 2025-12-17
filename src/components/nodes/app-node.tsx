@@ -9,26 +9,54 @@ import {
     BaseNodeHeaderTitle,
 } from '../base-node';
 import { LabeledHandle } from '../labeled-handle';
-
 import { EllipsisVertical } from 'lucide-react';
 import { Button } from '../ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuItem,
+
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 
-export type NumNode = Node<{
-    value: number;
+
+
+export type Details = {
+    icon: React.ReactNode,
+    service: string,
+    rate: string,
+    metrics: {
+        cpu: number,
+        memory: string,
+        disk: string,
+        region: number
+    },
+    activeMetric: "CPU" | "Memory" | "Disk" | "Region",
+    slider: {
+        min: number,
+        max: number,
+        value: number,
+        unit: string
+    },
+    status: {
+        label: string,
+        type: "healthy" | "unhealthy"
+    },
+    provider: string
+}
+export type AppNode = Node<{
+    details: Details;
 }>;
 
-export function NumNode({ id, data }: NodeProps<NumNode>) {
+
+
+
+
+export function AppNode({ id, data }: NodeProps<AppNode>) {
     const { updateNodeData, setNodes } = useReactFlow();
 
     const handleReset = useCallback(() => {
-        updateNodeData(id, { value: 0 });
+        console.log("reset")
     }, [id, updateNodeData]);
 
     const handleDelete = useCallback(() => {
@@ -36,17 +64,18 @@ export function NumNode({ id, data }: NodeProps<NumNode>) {
     }, [id, setNodes]);
 
     const handleIncr = useCallback(() => {
-        updateNodeData(id, { value: data.value + 1 });
-    }, [id, data.value, updateNodeData]);
+        console.log("incre")
+    }, []);
 
     const handleDecr = useCallback(() => {
-        updateNodeData(id, { value: data.value - 1 });
-    }, [id, data.value, updateNodeData]);
+        console.log("decr")
+    }, []);
 
     return (
-        <BaseNode>
+        <BaseNode className='bg-slate-800'>
             <BaseNodeHeader className="border-b">
-                <BaseNodeHeaderTitle>Num</BaseNodeHeaderTitle>
+                <span>{data.details.icon}</span>
+                <BaseNodeHeaderTitle>{data.details.service}</BaseNodeHeaderTitle>
 
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -60,9 +89,8 @@ export function NumNode({ id, data }: NodeProps<NumNode>) {
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
-                        <DropdownMenuLabel className="font-bold">Node Actions</DropdownMenuLabel>
-                        <DropdownMenuItem onSelect={handleReset}>Reset</DropdownMenuItem>
-                        <DropdownMenuItem onSelect={handleDelete}>Delete</DropdownMenuItem>
+                        <DropdownMenuLabel className="font-bold">Applications</DropdownMenuLabel>
+
                     </DropdownMenuContent>
                 </DropdownMenu>
             </BaseNodeHeader>
@@ -70,7 +98,7 @@ export function NumNode({ id, data }: NodeProps<NumNode>) {
             <BaseNodeContent>
                 <div className="flex gap-2 items-center">
                     <Button onClick={handleDecr}>-</Button>
-                    <pre>{String(data.value).padStart(3, ' ')}</pre>
+                    {/* <pre>{String(data.value).padStart(3, ' ')}</pre> */}
                     <Button onClick={handleIncr}>+</Button>
                 </div>
             </BaseNodeContent>

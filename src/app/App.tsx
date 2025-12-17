@@ -1,74 +1,37 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import {
   ReactFlow,
-  type Node,
-  type Edge,
   type OnConnect,
   addEdge,
   useNodesState,
   useEdgesState,
+  Background,
+  BackgroundVariant,
+
 } from '@xyflow/react';
 
-import { NumNode } from '../components/nodes/num-node.tsx';
+import { AppNode } from '../components/nodes/app-node.tsx';
 import { SumNode } from '../components/nodes/sum-node.tsx';
+import { initialNodes } from '../canvas/nodes/ServiceNode.tsx';
 
 import { DataEdge } from '../components/data-edge.tsx';
+
 
 import '@xyflow/react/dist/style.css';
 import TopBar from '@/layout/TopBar.tsx';
 import LeftRail from '@/layout/LeftRail.tsx';
+import { initialEdges } from '@/canvas/edges.ts';
 
 const nodeTypes = {
-  num: NumNode,
+  num: AppNode,
   sum: SumNode,
 };
-
-const initialNodes: Node[] = [
-  { id: 'a', type: 'num', data: { value: 0 }, position: { x: 0, y: 0 } },
-  { id: 'b', type: 'num', data: { value: 0 }, position: { x: 0, y: 200 } },
-  { id: 'c', type: 'sum', data: { value: 0 }, position: { x: 300, y: 100 } },
-  { id: 'd', type: 'num', data: { value: 0 }, position: { x: 0, y: 400 } },
-  { id: 'e', type: 'sum', data: { value: 0 }, position: { x: 600, y: 400 } },
-];
 
 const edgeTypes = {
   data: DataEdge,
 };
 
-const initialEdges: Edge[] = [
-  {
-    id: 'a->c',
-    type: 'data',
-    data: { key: 'value' },
-    source: 'a',
-    target: 'c',
-    targetHandle: 'x',
-  },
-  {
-    id: 'b->c',
-    type: 'data',
-    data: { key: 'value' },
-    source: 'b',
-    target: 'c',
-    targetHandle: 'y',
-  },
-  {
-    id: 'c->e',
-    type: 'data',
-    data: { key: 'value' },
-    source: 'c',
-    target: 'e',
-    targetHandle: 'x',
-  },
-  {
-    id: 'd->e',
-    type: 'data',
-    data: { key: 'value' },
-    source: 'd',
-    target: 'e',
-    targetHandle: 'y',
-  },
-];
+
 
 function Flow() {
   const [nodes, , onNodesChange] = useNodesState(initialNodes);
@@ -84,11 +47,11 @@ function Flow() {
   );
 
   return (
-    <div className="relative h-screen w-screen p-8 bg-gray-50 rounded-xl">
-      <div className="absolute top-0 left-0 w-full h-full">
+    <div className="relative h-screen w-screen p-8 bg-slate-950 rounded-xl">
+      <div className="absolute  z-10 top-0 left-0 w-full h-full">
         <TopBar />
       </div>
-      <div className='absolute top-[20%] left-10'>
+      <div className='absolute z-10 w-fit  top-[20%] left-10'>
         <LeftRail />
       </div>
       <ReactFlow
@@ -100,11 +63,33 @@ function Flow() {
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
         fitView
-      />
+      >
+        <Background color='white' variant={BackgroundVariant.Dots} />
+      </ReactFlow>
     </div>
   );
 }
 
+
+
 export default function App() {
-  return <Flow />;
+
+
+  // const server = setupServer(...handlers)
+  // server.listen()
+
+  useEffect(() => {
+    const fetchnodes = async () => {
+      const response = await fetch('/api/user')
+      const data = await response.json()
+      console.log(data)
+    }
+    fetchnodes()
+  }, [])
+
+  return (
+    <>
+      <Flow />
+    </>
+  )
 }

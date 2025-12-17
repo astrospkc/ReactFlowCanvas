@@ -1,7 +1,8 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-
+@import url('./xy-theme.css');
 @custom-variant dark (&:is(.dark *));
+
 
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -188,6 +189,7 @@ button:focus-visible {
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }

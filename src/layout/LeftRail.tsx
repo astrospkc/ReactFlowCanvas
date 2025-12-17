@@ -7,7 +7,7 @@ import {
 import { FaGithub, FaBuffer } from "react-icons/fa"
 import { SiPostgresql, SiMongodb } from "react-icons/si"
 
-import clsx from "clsx"
+
 
 const navItems = [
     { id: "github", icon: FaGithub, color: "text-white" },
