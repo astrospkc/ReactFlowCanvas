@@ -8,7 +8,7 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { ChevronRight, Lightbulb, Settings, Rocket, Folder, Puzzle, ChevronDown, MoreHorizontal, Share2, Moon, Sun, } from "lucide-react"
+import { ChevronRight, Lightbulb, Settings, Rocket, Folder, Puzzle, ChevronDown, MoreHorizontal, Share2, Moon, Sun, Hamburger, Menu, } from "lucide-react"
 import { useAppsQuery } from "@/queries/apps.query"
 import { useAppStore } from "@/store/useAppStore"
 import { useAppGraphsQuery } from "@/queries/graphs.query"
@@ -18,6 +18,7 @@ export default function TopBar() {
     const [dark, setDark] = useState(true)
     const { setSelectedApp, selectedApp } = useAppStore()
     const { setSelectedNodes, setSelectedEdges } = useGraphStore()
+
     const iconMap: Record<number, any> = {
         1: Lightbulb,
         2: Settings,
@@ -35,9 +36,6 @@ export default function TopBar() {
 
     const { data: apps, isLoading, isError } = useAppsQuery()
     console.log("data in app: ", apps)
-
-
-
     const handleSelectApp = (appId: string) => {
         setSelectedApp(appId)
         // api call is made to set the graph data
@@ -58,11 +56,8 @@ export default function TopBar() {
     if (graphError) return <div>Error: {graphError}</div>
 
 
-
-
-
     return (
-        <header className="h-14  my-4 bg-slate-950 w-full flex items-center justify-between px-4 pointer-events-auto ">
+        <header className="  my-4 bg-slate-950 w-full flex items-center justify-between px-4 pointer-events-auto ">
 
             {/* LEFT */}
             <div className="flex items-center gap-3 border-2 border-gray-600 rounded-lg p-1">
@@ -133,28 +128,66 @@ export default function TopBar() {
             </div>
 
             {/* RIGHT */}
-            <div className="flex items-center gap-2 border-2 border-gray-600 rounded-lg p-1 ">
-                <Button variant="ghost" size="icon">
-                    <Share2 className="w-5 h-5 text-white" />
-                </Button>
+            <div className="flex items-center gap-2 border border-gray-600 rounded-lg p-1">
 
-                <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => setDark(!dark)}
-                >
-                    {dark ? <Moon className="w-5 h-5 text-white" /> : <Sun className="w-5 h-5 text-white" />}
-                </Button>
+                {/* Desktop actions */}
+                <div className="hidden md:flex items-center gap-2">
+                    <ActionButtons dark={dark} setDark={setDark} />
+                </div>
 
-                <Button variant="ghost" size="icon">
-                    <Settings className="w-5 h-5 text-white" />
-                </Button>
+                {/* Mobile menu */}
+                <div className="md:hidden">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" size="icon">
+                                <Menu className="w-5 h-5 text-white" />
+                            </Button>
+                        </DropdownMenuTrigger>
 
-                <Avatar className="w-8 h-8">
-                    <AvatarImage src="https://github.com/shadcn.png" />
-                    <AvatarFallback>PK</AvatarFallback>
-                </Avatar>
+                        <DropdownMenuContent
+                            align="end"
+                            className="flex flex-col gap-2 bg-slate-900 border border-gray-700 p-2"
+                        >
+                            <ActionButtons dark={dark} setDark={setDark} />
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
+
             </div>
+
+
         </header>
     )
 }
+
+function ActionButtons({ dark, setDark }: { dark: boolean; setDark: (v: boolean) => void }) {
+    return (
+        <>
+            <Button variant="ghost" size="icon">
+                <Share2 className="w-5 h-5 text-white" />
+            </Button>
+
+            <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setDark(!dark)}
+            >
+                {dark ? (
+                    <Moon className="w-5 h-5 text-white" />
+                ) : (
+                    <Sun className="w-5 h-5 text-white" />
+                )}
+            </Button>
+
+            <Button variant="ghost" size="icon">
+                <Settings className="w-5 h-5 text-white" />
+            </Button>
+
+            <Avatar className="w-8 h-8">
+                <AvatarImage src="https://github.com/shadcn.png" />
+                <AvatarFallback>PK</AvatarFallback>
+            </Avatar>
+        </>
+    )
+}
+

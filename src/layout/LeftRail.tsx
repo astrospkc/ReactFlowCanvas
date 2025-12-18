@@ -40,7 +40,7 @@ export default function LeftRail() {
 
 
     return (
-        <aside className="h-full w-14 flex flex-col items-center bg-black rounded-lg py-3 border-r border-border pointer-events-auto">
+        <aside className="h-full w-14 flex flex-col items-center bg-black rounded-lg py-3 shadow-md shadow-gray-500/80 pointer-events-auto">
             <div className="flex flex-col gap-2">
                 {navItems.map((item) => {
                     const Icon = item.icon
@@ -48,10 +48,10 @@ export default function LeftRail() {
                         <Tooltip key={item.id}>
                             <TooltipTrigger asChild>
                                 <h1
-                                    className="hover:shadow-lg hover:shadow-green-300 hover:cursor-pointer p-2 rounded-lg"
+                                    className="hover:shadow-md  hover:shadow-green-300 hover:cursor-pointer p-2 rounded-lg"
                                     onClick={() => handleServiceNode(item.id)}
                                 >
-                                    <Icon className={`text-3xl my-3  ${item.color}`} />
+                                    <Icon className={`text-2xl my-1  ${item.color}`} />
                                 </h1>
 
                             </TooltipTrigger>
