@@ -59,9 +59,9 @@ export type Details = {
 export type UseNodeStoreType = {
     selectedNode: string,
     setSelectedNode: (node: string) => void,
-    nodes: string[],
-    setNodes: (nodes: string[]) => void,
-    addNode: (node: string) => void,
-    removeNode: (node: string) => void,
-    updateNode: (node: string) => void
+    selectedNodes: Node[],
+    setSelectedNodes: (nodes: Node[]) => void,
+    addNode: (node: Node) => void,
+    removeNode: (nodeId: string) => void,
+    updateNode: (nodeId: string, node: Node) => void
 }

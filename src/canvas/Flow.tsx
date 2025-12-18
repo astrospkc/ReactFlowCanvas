@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import TopBar from '@/layout/TopBar.tsx';
 import LeftRail from '@/layout/LeftRail.tsx';
 import { initialEdges } from '@/canvas/edges.ts';
@@ -18,6 +18,7 @@ import { ServiceNode } from '../components/nodes/ServiceNode.tsx';
 import { initialNodes } from './nodes.tsx';
 
 import { DataEdge } from '../components/data-edge.tsx';
+import { useNodeStore } from '@/store/useNodeStore.ts';
 
 const nodeTypes = {
     app: ServiceNode,
@@ -31,8 +32,13 @@ const edgeTypes = {
 
 
 export default function Flow() {
-    const [nodes, , onNodesChange] = useNodesState(initialNodes);
+    const { selectedNodes } = useNodeStore()
+    const [nodes, setNodes, onNodesChange] = useNodesState(selectedNodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+    useEffect(() => {
+        setNodes(selectedNodes)
+    }, [selectedNodes])
 
     const onConnect: OnConnect = useCallback(
         (params) => {
@@ -42,6 +48,7 @@ export default function Flow() {
         },
         [setEdges],
     );
+
 
     return (
         <div className="relative h-screen w-screen p-8 bg-slate-950 rounded-xl">

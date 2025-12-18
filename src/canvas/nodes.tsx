@@ -13,7 +13,7 @@ import { SiPostgresql, SiMongodb } from "react-icons/si"
 
 export const initialNodes: Node[] = [
   {
-    id: "a",
+    id: "github",
     type: 'app',
     data: {
       icon: <FaGithub />,
@@ -43,7 +43,7 @@ export const initialNodes: Node[] = [
 
   },
   {
-    id: 'b',
+    id: 'postgres',
     type: 'app',
     data: {
       icon: <SiPostgresql />,
@@ -73,7 +73,7 @@ export const initialNodes: Node[] = [
 
   },
   {
-    id: 'c',
+    id: 'redis',
     type: 'app',
     data: {
       icon: <LayoutGrid />,
@@ -103,7 +103,7 @@ export const initialNodes: Node[] = [
 
   },
   {
-    id: 'd',
+    id: 'mongo',
     type: 'app',
     data: {
       icon: <SiMongodb />,
@@ -133,7 +133,7 @@ export const initialNodes: Node[] = [
 
   },
   {
-    id: 'e',
+    id: 'services',
     type: 'app',
     data: {
       icon: <Boxes />,
@@ -163,7 +163,7 @@ export const initialNodes: Node[] = [
 
   },
   {
-    id: 'f',
+    id: 'apps',
     type: 'app',
     data: {
       icon: <FaBuffer />,
@@ -193,7 +193,7 @@ export const initialNodes: Node[] = [
 
   },
   {
-    id: 'g',
+    id: 'flow',
     type: 'app',
     data: {
       icon: <GitBranch />,

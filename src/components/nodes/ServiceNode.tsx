@@ -43,7 +43,6 @@ export function ServiceNode({ id, data }: NodeProps<ServiceNode>) {
     return (
         <>
             <BaseNode className="bg-black text-white w-[340px] rounded-xl">
-
                 {/* Header */}
                 <BaseNodeHeader className="flex items-center justify-between border-b border-neutral-800">
                     <div className="flex items-center gap-2">
