@@ -1,5 +1,5 @@
-import { type NodeProps, Position, useReactFlow } from '@xyflow/react';
-import { useCallback } from 'react';
+import { type NodeProps, Position } from '@xyflow/react';
+
 
 import {
     BaseNode,
@@ -26,7 +26,7 @@ export function ServiceNode({ data }: NodeProps<ServiceNode>) {
 
     return (
         <>
-            <BaseNode className="bg-black text-white w-[340px] rounded-xl">
+            <BaseNode className="bg-black text-white rounded-xl">
                 {/* Header */}
                 <LabeledHandle title="in" type="target" position={Position.Top} />
                 <BaseNodeHeader className="flex items-center justify-between border-b border-neutral-800">

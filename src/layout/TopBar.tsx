@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -8,13 +8,16 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { ChevronRight, Lightbulb, Settings, Rocket, Folder, Puzzle, ChevronDown, MoreHorizontal, Share2, Moon, Sun, } from "lucide-react"
+import { ChevronRight, Lightbulb, Settings, Rocket, Folder, Puzzle, ChevronDown, MoreHorizontal, Share2, Moon, Sun, type LucideProps, } from "lucide-react"
 import { useAppsQuery } from "@/queries/apps.query"
 import { useAppStore } from "@/store/useAppStore"
+import { useAppGraphsQuery } from "@/queries/graphs.query"
+import { useGraphStore } from "@/store/useGraphStore"
 
 export default function TopBar() {
     const [dark, setDark] = useState(true)
     const { setSelectedApp, selectedApp } = useAppStore()
+    const { setSelectedNodes, setSelectedEdges } = useGraphStore()
     const iconMap: Record<number, any> = {
         1: Lightbulb,
         2: Settings,
@@ -29,23 +32,34 @@ export default function TopBar() {
         name: string
     }
 
-    // const apps = [
-    //     { id: '1', name: 'supertokens-golang' },
-    //     { id: '2', name: 'supertokens-java' },
-    //     { id: '3', name: 'supertokens-python' },
-    //     { id: '4', name: 'supertokens-js' },
-    // ]
 
     const { data: apps, isLoading, isError } = useAppsQuery()
     console.log("data in app: ", apps)
 
-    if (isLoading) return <div>Loading...</div>
-    if (isError) return <div>Error: {isError}</div>
+
 
     const handleSelectApp = (appId: string) => {
         setSelectedApp(appId)
         // api call is made to set the graph data
     }
+
+    const { data: appGraph, isLoading: graphLoading, isError: graphError } = useAppGraphsQuery(selectedApp)
+    console.log("data in graph: ", appGraph)
+    useEffect(() => {
+        setSelectedNodes(appGraph.data.nodes)
+        setSelectedEdges(appGraph.data.edges)
+    }, [appGraph.data.edges, appGraph.data.nodes])
+
+    if (isLoading) return <div>Loading...</div>
+    if (isError) return <div>Error: {isError}</div>
+
+
+    if (graphLoading) return <div>Loading...</div>
+    if (graphError) return <div>Error: {graphError}</div>
+
+
+
+
 
     return (
         <header className="h-14  my-4 bg-slate-950 w-full flex items-center justify-between px-4 pointer-events-auto ">

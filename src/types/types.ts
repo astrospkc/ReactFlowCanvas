@@ -1,4 +1,4 @@
-import type { Node } from "@xyflow/react";
+import type { Edge, Node } from "@xyflow/react";
 
 export interface useAppStoreType {
     selectedApp: string,
@@ -55,8 +55,14 @@ export type Details = {
     provider: string
 }
 
+export const DefaultNode = {
+    id: "default",
+    type: 'app',
+    data: {},
+    position: { x: 0, y: 0 }
+}
 
-export type UseNodeStoreType = {
+export type UseGraphStoreType = {
     selectedNode: string,
     setSelectedNode: (node: string) => void,
     selectedNodes: Node[],
@@ -64,4 +70,6 @@ export type UseNodeStoreType = {
     addNode: (node: Node) => void,
     removeNode: (nodeId: string) => void,
     updateNode: (nodeId: string, node: Node) => void
+    selectedEdges: Edge[],
+    setSelectedEdges: (edges: Edge[]) => void
 }

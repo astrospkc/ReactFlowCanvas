@@ -1,4 +1,5 @@
-import type { UiStoreType } from '@/types/types'
+
+import type { useAppStoreType } from '@/types/types'
 import { create } from 'zustand'
 
 

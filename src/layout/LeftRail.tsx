@@ -12,8 +12,9 @@ import {
     TooltipContent,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { useNodeStore } from "@/store/useNodeStore"
+import { useGraphStore } from "@/store/useGraphStore"
 import { initialNodes } from "@/canvas/nodes"
+import { DefaultNode } from "@/types/types"
 
 
 const navItems = [
@@ -26,14 +27,9 @@ const navItems = [
     { id: "flow", icon: GitBranch, color: "text-green-500" }
 ]
 
-export const DefaultNode = {
-    id: "default",
-    type: 'app',
-    data: {},
-    position: { x: 0, y: 0 }
-}
+
 export default function LeftRail() {
-    const { addNode } = useNodeStore()
+    const { addNode } = useGraphStore()
 
     const handleServiceNode = (item: string) => {
         console.log("service node clicked")
@@ -46,7 +42,7 @@ export default function LeftRail() {
     return (
         <aside className="h-full w-14 flex flex-col items-center bg-black rounded-lg py-3 border-r border-border pointer-events-auto">
             <div className="flex flex-col gap-2">
-                {navItems.map((item, _) => {
+                {navItems.map((item) => {
                     const Icon = item.icon
                     return (
                         <Tooltip key={item.id}>

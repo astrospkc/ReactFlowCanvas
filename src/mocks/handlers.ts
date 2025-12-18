@@ -1,4 +1,5 @@
-import { initialNodes } from '@/canvas/nodes';
+
+
 import { http, HttpResponse } from 'msw';
 
 const TotalApps = [
@@ -8,23 +9,73 @@ const TotalApps = [
     { id: '4', name: 'supertokens-js' },
 ]
 
+
 const Graphs = {
+    id: "1",
     nodes: [
         {
-            id: 'service',
-            type: 'service',
-            data: { label: 'API Service', cpu: 40 },
-            position: { x: 200, y: 150 },
+            id: "github",
+            type: 'app',
+            data: {
+                icon: "<FaGithub />",
+                service: "Github",
+                rate: "$0.03/HR",
+                metrics: {
+                    cpu: 0.02,
+                    memory: "0.05 GB",
+                    disk: "10.00 GB",
+                    region: 1,
+                },
+                activeMetric: "CPU", // CPU | Memory | Disk | Region
+                slider: {
+                    min: 0,
+                    max: 100,
+                    value: 2,
+                    unit: "vCPU",
+                },
+                status: {
+                    label: "Success",
+                    type: "healthy",
+                },
+
+                provider: "aws",
+            },
+            position: { x: 0, y: 0 }
+
         },
         {
             id: 'postgres',
-            type: 'db',
-            data: { label: 'Postgres' },
-            position: { x: 450, y: 80 },
+            type: 'app',
+            data: {
+                icon: "<SiPostgresql />",
+                service: "PostgreSQL",
+                rate: "$0.03/HR",
+                metrics: {
+                    cpu: 0.02,
+                    memory: "0.05 GB",
+                    disk: "10.00 GB",
+                    region: 1,
+                },
+                activeMetric: "CPU", // CPU | Memory | Disk | Region
+                slider: {
+                    min: 0,
+                    max: 100,
+                    value: 2,
+                    unit: "vCPU",
+                },
+                status: {
+                    label: "Success",
+                    type: "healthy",
+                },
+
+                provider: "aws",
+            },
+            position: { x: 0, y: 200 }
+
         },
     ],
     edges: [
-        { id: 'e1', source: 'service', target: 'postgres' },
+        { id: 'xy-edge__github-postgres', source: 'github', target: 'postgres' },
     ],
 }
 
@@ -44,7 +95,7 @@ export const handlers = [
 
     http.get('/apps/:appId/graph', () => {
         return HttpResponse.json({
-
+            data: Graphs
         })
     })
 

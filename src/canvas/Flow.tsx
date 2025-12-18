@@ -18,7 +18,8 @@ import {
 
 import { ServiceNode } from '../components/nodes/ServiceNode.tsx';
 import { DataEdge } from '../components/data-edge.tsx';
-import { useNodeStore } from '@/store/useNodeStore.ts';
+import { useGraphStore } from '@/store/useGraphStore.ts';
+
 
 const nodeTypes = {
     app: ServiceNode,
@@ -32,9 +33,9 @@ const edgeTypes = {
 
 
 export default function Flow() {
-    const { selectedNodes } = useNodeStore()
+    const { selectedNodes, selectedEdges } = useGraphStore()
     const [nodes, setNodes, onNodesChange] = useNodesState(selectedNodes);
-    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+    const [edges, setEdges, onEdgesChange] = useEdgesState(selectedEdges)
     const onConnect = useCallback(
         (connection: Connection) => {
             setEdges((oldEdges) => addEdge(connection, oldEdges));
@@ -90,7 +91,8 @@ export default function Flow() {
 
     useEffect(() => {
         setNodes(selectedNodes)
-    }, [selectedNodes])
+        setEdges(selectedEdges)
+    }, [selectedNodes, selectedEdges])
 
 
 
