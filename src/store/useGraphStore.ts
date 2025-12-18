@@ -12,4 +12,5 @@ export const useGraphStore = create<UseGraphStoreType>((set) => ({
     updateNode: (nodeId: string, node: Node) => set((state) => ({ selectedNodes: state.selectedNodes.map((n) => (n.id === nodeId ? node : n)) })),
     selectedEdges: [],
     setSelectedEdges: (edges: Edge[]) => set({ selectedEdges: edges }),
+    setAddEdge: (edge: Edge) => set((state) => ({ selectedEdges: [...(state.selectedEdges ?? []), edge] }))
 }))

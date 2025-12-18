@@ -33,7 +33,7 @@ const edgeTypes = {
 
 
 export default function Flow() {
-    const { selectedNodes, selectedEdges } = useGraphStore()
+    const { selectedNodes, selectedEdges, setSelectedEdges, setSelectedNodes } = useGraphStore()
     const [nodes, setNodes, onNodesChange] = useNodesState(selectedNodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState(selectedEdges ?? [])
 
@@ -48,6 +48,10 @@ export default function Flow() {
         },
         [setEdges],
     );
+    useEffect(() => {
+        setSelectedEdges(edges)
+        setSelectedNodes(nodes)
+    }, [edges, nodes])
     const onNodesDelete = useCallback(
         (deleted: Node[]) => {
             setEdges((currentEdges) => {

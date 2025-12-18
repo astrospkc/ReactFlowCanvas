@@ -72,4 +72,5 @@ export type UseGraphStoreType = {
     updateNode: (nodeId: string, node: Node) => void
     selectedEdges: Edge[],
     setSelectedEdges: (edges: Edge[]) => void
+    setAddEdge: (edge: Edge) => void
 }
