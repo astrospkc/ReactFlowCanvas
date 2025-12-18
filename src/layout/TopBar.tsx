@@ -84,7 +84,7 @@ export default function TopBar() {
 
 
     return (
-        <header className="  my-4 bg-slate-950 w-full flex items-center justify-between px-4 pointer-events-auto ">
+        <header className="  my-4 bg-white h-14 w-full flex items-center justify-between px-4 pointer-events-auto ">
 
             {/* LEFT */}
             <div className="flex items-center gap-3 border-2 border-gray-600 rounded-lg p-1">
