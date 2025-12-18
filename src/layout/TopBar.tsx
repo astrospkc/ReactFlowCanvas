@@ -13,11 +13,15 @@ import { useAppsQuery } from "@/queries/apps.query"
 import { useAppStore } from "@/store/useAppStore"
 import { useAppGraphsQuery } from "@/queries/graphs.query"
 import { useGraphStore } from "@/store/useGraphStore"
+import { useMutation } from "@tanstack/react-query"
+import axios from "axios"
+import type { AppType } from "@/types/types"
 
 export default function TopBar() {
     const [dark, setDark] = useState(true)
-    const { setSelectedApp, selectedApp } = useAppStore()
+    const { setSelectedApp, selectedApp, setApps, apps } = useAppStore()
     const { setSelectedNodes, setSelectedEdges } = useGraphStore()
+    const [appName, setAppName] = useState('')
 
     const iconMap: Record<number, any> = {
         1: Lightbulb,
@@ -34,14 +38,37 @@ export default function TopBar() {
     }
 
 
-    const { data: apps, isLoading, isError } = useAppsQuery()
-    console.log("data in app: ", apps)
+    const { data: num_apps, isLoading, isError } = useAppsQuery()
+
+
+    useEffect(() => {
+        setApps(num_apps?.data)
+    }, [num_apps])
     const handleSelectApp = (appId: string) => {
         setSelectedApp(appId)
         // api call is made to set the graph data
     }
 
+    const appMutation = useMutation({
+        mutationFn: (newApp: AppType) => {
+            return axios.post('/apps', newApp)
+        },
+    })
+
+    const handleChangeAppName = (name: string) => {
+        setAppName(name)
+    }
+
+    const handleAddApp = () => {
+        const id = crypto.randomUUID()
+        const newApp = { id, name: appName }
+        appMutation.mutate(newApp)
+
+        setApps([newApp, ...((num_apps?.data) ? num_apps.data : [])])
+    }
+
     const { data: appGraph, isLoading: graphLoading, isError: graphError } = useAppGraphsQuery(selectedApp)
+    console.log("apps after adding: ", apps)
     console.log("data in graph: ", appGraph)
     useEffect(() => {
         setSelectedNodes(appGraph?.data?.nodes)
@@ -84,14 +111,18 @@ export default function TopBar() {
                     <DropdownMenuContent className="bg-black px-3 text-white flex flex-col justify-start border-2 border-gray-700">
                         <DropdownMenuLabel className="font-bold">Applications</DropdownMenuLabel>
                         <div className="flex items-center gap-2">
-                            <input type="text" placeholder="Search" className="p-1 my-2 bg-slate-800 rounded-xs focus-none outline-none" />
-                            <div className="w-8 h-8 bg-blue-500 flex justify-center items-center text-center rounded-xs">
+                            <input
+                                onChange={(e) => handleChangeAppName(e.target.value)}
+                                type="text" placeholder="Search" className="p-1 my-2 bg-slate-800 rounded-xs focus-none outline-none" />
+                            <div
+                                onClick={handleAddApp}
+                                className="w-8 h-8 bg-blue-500 flex hover:cursor-pointer hover:bg-blue-800 justify-center items-center text-center rounded-xs">
                                 +
                             </div>
                         </div>
                         <div>
                             {
-                                apps && apps.data.length > 0 && apps.data.map((app: App) => {
+                                apps && apps.length > 0 && apps.map((app: App) => {
                                     const Icon = iconMap[Math.floor(Math.random() * 5) + 1]
                                     const color = colors[Math.floor(Math.random() * 5) + 1]
                                     const backgroundColor = `bg-${color}`

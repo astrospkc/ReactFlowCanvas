@@ -97,6 +97,12 @@ export const handlers = [
         return HttpResponse.json({
             data: Graphs
         })
+    }),
+    http.post(`/apps`, async ({ request }) => {
+        const body = await request.json()
+        return HttpResponse.json({
+            data: body
+        })
     })
 
 

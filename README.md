@@ -80,3 +80,7 @@ Used Zustand for non-server UI/app state:
 - to select node, update the state of the selected nodes (use zustand)
 - create the dummy data for graphs and apps to be fetched by calling api.
 - when node delete, update both nodes and edges.
+
+
+
+

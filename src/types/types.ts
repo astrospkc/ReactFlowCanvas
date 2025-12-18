@@ -1,8 +1,16 @@
 import type { Edge, Node } from "@xyflow/react";
 
+
+export type AppType = {
+    id: string,
+    name: string
+}
 export interface useAppStoreType {
     selectedApp: string,
-    setSelectedApp: (app: string) => void
+    setSelectedApp: (app: string) => void,
+    apps: AppType[] | [],
+    setApps: (apps: AppType[] | []) => void
+
 }
 
 
