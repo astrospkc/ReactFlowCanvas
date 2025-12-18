@@ -1,73 +1,82 @@
-# React + TypeScript + Vite
+# App Graph Builder
+![App graph builder](public/ss_project.png)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+## Project Structure
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+/
+├── public/              # Static assets
+├── src/
+│   ├── app/    # App-wide routing/configurations
+        |- App.tsx
+        |- main.tsx
+        |- providers.tsx        
+│   ├── assets/          # Source assets (images, icons)
+│   ├── canvas/      # Canvas specific logic
+        |- edges.ts
+        |- Flow.tsx
+        |- nodes.tsx
+│   ├── components/      # Shared components
+        |-nodes/
+            |- ServiceNode.tsx
+        |- ui
+│   ├── layout/          # Layout components
+        |- LeftRail.tsx
+        |- TopBar.tsx
+        |- RightPanel.tsx
+        |- MobileDrawer.tsx
+│   ├── lib/             # Utility libraries
+│   ├── mocks/           # Mock data/testing
+        |-browser.ts
+        |- handlers.ts
+│   ├── queries/         # Data fetching queries
+        |- apps.query.ts
+        |- graphs.query.ts
+│   ├── store/           # State management
+        |- useAppStore.ts
+        |- useGraphStore.ts
+│   ├── types/           # TypeScript types
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+## Tech Stack used:
+
+- **React + Vite**
+- **TypeScript (strict: true)**
+- **ReactFlow (xyflow)**
+- **shadcn/ui**
+- **TanStack Query**
+- **Zustand**
+- **MSW**(mock api)
+
+### Tanstack Query:
+
+### **TanStack Query (mock APIs)**
+
+Implemented these mock endpoints (in-memory, simulated latency):
+
+- GET /apps → returns a list of apps
+- GET /apps/:appId/graph → returns nodes + edges for the selected app
+
+**Mocking approach :**
+- MSW (Mock Service Worker)
+
+
+### Zustand (for state management):
+
+### **Zustand (required state)**
+
+Used Zustand for non-server UI/app state:
+
+- selectedAppId
+- selectedNodeId
+- isMobilePanelOpen
+- activeInspectorTab
+
+### Key decision:
+
+- Create the node stucture first
+- to select node, update the state of the selected nodes (use zustand)
+- create the dummy data for graphs and apps to be fetched by calling api.
+- when node delete, update both nodes and edges.

@@ -8,7 +8,7 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { ChevronRight, Lightbulb, Settings, Rocket, Folder, Puzzle, ChevronDown, MoreHorizontal, Share2, Moon, Sun, type LucideProps, } from "lucide-react"
+import { ChevronRight, Lightbulb, Settings, Rocket, Folder, Puzzle, ChevronDown, MoreHorizontal, Share2, Moon, Sun, } from "lucide-react"
 import { useAppsQuery } from "@/queries/apps.query"
 import { useAppStore } from "@/store/useAppStore"
 import { useAppGraphsQuery } from "@/queries/graphs.query"
@@ -46,9 +46,9 @@ export default function TopBar() {
     const { data: appGraph, isLoading: graphLoading, isError: graphError } = useAppGraphsQuery(selectedApp)
     console.log("data in graph: ", appGraph)
     useEffect(() => {
-        setSelectedNodes(appGraph.data.nodes)
-        setSelectedEdges(appGraph.data.edges)
-    }, [appGraph.data.edges, appGraph.data.nodes])
+        setSelectedNodes(appGraph?.data?.nodes)
+        setSelectedEdges(appGraph?.data?.edges)
+    }, [appGraph?.data?.edges, appGraph?.data?.nodes])
 
     if (isLoading) return <div>Loading...</div>
     if (isError) return <div>Error: {isError}</div>
@@ -96,7 +96,7 @@ export default function TopBar() {
                         </div>
                         <div>
                             {
-                                apps.data.length > 0 && apps.data.map((app: App) => {
+                                apps && apps.data.length > 0 && apps.data.map((app: App) => {
                                     const Icon = iconMap[Math.floor(Math.random() * 5) + 1]
                                     const color = colors[Math.floor(Math.random() * 5) + 1]
                                     const backgroundColor = `bg-${color}`
