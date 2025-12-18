@@ -23,13 +23,13 @@ export default function TopBar() {
     const { setSelectedNodes, setSelectedEdges } = useGraphStore()
     const [appName, setAppName] = useState('')
 
-    const iconMap: Record<number, any> = {
-        1: Lightbulb,
-        2: Settings,
-        3: Rocket,
-        4: Folder,
-        5: Puzzle,
-    }
+    const iconMap = [
+        Lightbulb,
+        Settings,
+        Rocket,
+        Folder,
+        Puzzle,
+    ]
     const colors = ['#6366F1', '#8B5CF6', '#F87171', '#EC4899', '#7C3AED']
 
     type App = {
