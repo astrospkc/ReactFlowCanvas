@@ -59,6 +59,15 @@ export default function TopBar() {
         setAppName(name)
     }
 
+    function hashStringToIndex(str: string, max: number) {
+        let hash = 0
+        for (let i = 0; i < str.length; i++) {
+            hash = (hash << 5) - hash + str.charCodeAt(i)
+            hash |= 0
+        }
+        return Math.abs(hash) % max
+    }
+
     const handleAddApp = () => {
         const id = crypto.randomUUID()
         const newApp = { id, name: appName }
@@ -84,7 +93,7 @@ export default function TopBar() {
 
 
     return (
-        <header className="  mt-2 bg-slate-950  flex items-center justify-between px-4 pointer-events-auto ">
+        <div className="  mt-2 bg-slate-950  flex items-center justify-between px-4 pointer-events-auto ">
 
             {/* LEFT */}
             <div className="flex items-center gap-3 border-2 border-gray-600 rounded-lg p-1">
@@ -123,8 +132,10 @@ export default function TopBar() {
                         <div>
                             {
                                 apps && apps.length > 0 && apps.map((app: App) => {
-                                    const Icon = iconMap[Math.floor(Math.random() * 5) + 1]
-                                    const color = colors[Math.floor(Math.random() * 5) + 1]
+                                    const iconIndex = hashStringToIndex(app.id, 5)
+                                    const colorIndex = hashStringToIndex(app.name, colors.length)
+                                    const Icon = iconMap[iconIndex]
+                                    const color = colors[colorIndex]
                                     const backgroundColor = `bg-${color}`
                                     return (
                                         <DropdownMenuItem
@@ -186,7 +197,7 @@ export default function TopBar() {
             </div>
 
 
-        </header>
+        </div>
     )
 }
 
