@@ -19,7 +19,7 @@ import type { ServiceNode } from '@/types/types';
 
 
 
-export function ServiceNode({ id, data }: NodeProps<ServiceNode>) {
+export function ServiceNode({ data }: NodeProps<ServiceNode>) {
 
     console.log("data in app node: ", data.service)
     // const { updateNodeData, setNodes } = useReactFlow();
@@ -52,22 +52,22 @@ export function ServiceNode({ id, data }: NodeProps<ServiceNode>) {
 
                 {/* Content */}
                 <BaseNodeContent className="space-y-3">
-                    <div className="grid grid-cols-4 text-xs text-neutral-400">
+                    <div className="grid grid-cols-4 text-xs  text-neutral-400">
                         <span>{data.metrics.cpu}</span>
                         <span>{data.metrics.memory}</span>
                         <span>{data.metrics.disk}</span>
                         <span>{data.metrics.region}</span>
                     </div>
 
-                    <div className="flex gap-1 bg-neutral-800 rounded-lg p-1 text-xs">
+                    <div className="flex gap-1  rounded-lg p-1 bg-neutral-800 text-xs">
                         {["CPU", "Memory", "Disk", "Region"].map(tab => (
                             <button
                                 key={tab}
                                 className={clsx(
                                     "flex-1 py-1 rounded-md",
                                     data.activeMetric === tab
-                                        ? "bg-white text-black"
-                                        : "text-neutral-400"
+                                        ? "bg-white text-white"
+                                        : "bg-neutral-800 text-neutral-400 "
                                 )}
                             >
                                 {tab}
@@ -94,7 +94,7 @@ export function ServiceNode({ id, data }: NodeProps<ServiceNode>) {
                 </BaseNodeContent>
 
                 {/* Footer */}
-                <BaseNodeFooter className="flex items-center justify-between px-3 py-2 border-t border-neutral-800">
+                <div className='flex flex-row justify-around w-full px-3'>
                     <span
                         className={clsx(
                             "px-2 py-0.5 text-xs rounded",
@@ -109,7 +109,9 @@ export function ServiceNode({ id, data }: NodeProps<ServiceNode>) {
                     <span className="text-orange-400 font-semibold text-sm">
                         {data.provider.toUpperCase()}
                     </span>
+                </div>
 
+                <BaseNodeFooter className="flex border-0 items-center">
                     <LabeledHandle title="out" type="source" position={Position.Bottom} />
                 </BaseNodeFooter>
             </BaseNode>

@@ -47,7 +47,7 @@ export default function Flow() {
                 setNodes((currentNodes) => {
                     let remainingNodes = [...currentNodes]
 
-                    let nextEdges = deleted.reduce((acc, node) => {
+                    deleted.reduce((acc, node) => {
                         const incomers = getIncomers(node, remainingNodes, acc)
                         const outgoers = getOutgoers(node, remainingNodes, acc)
                         const connectedEdges = getConnectedEdges([node], acc)
