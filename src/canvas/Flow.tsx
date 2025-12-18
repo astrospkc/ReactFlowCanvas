@@ -106,7 +106,7 @@ export default function Flow() {
 
     return (
         <div className="relative h-screen w-screen p-8 bg-slate-950 rounded-xl">
-            <div className="absolute  z-10 top-0 left-0 w-full h-14 pointer-events-none">
+            <div className="absolute   z-20 top-4 left-4 right-4 pointer-events-none">
                 <TopBar />
             </div>
             <div className='absolute z-10 w-fit  top-[20%] left-10 pointer-events-none'>
