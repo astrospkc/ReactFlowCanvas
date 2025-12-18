@@ -35,7 +35,13 @@ const edgeTypes = {
 export default function Flow() {
     const { selectedNodes, selectedEdges } = useGraphStore()
     const [nodes, setNodes, onNodesChange] = useNodesState(selectedNodes);
-    const [edges, setEdges, onEdgesChange] = useEdgesState(selectedEdges)
+    const [edges, setEdges, onEdgesChange] = useEdgesState(selectedEdges ?? [])
+
+    useEffect(() => {
+        setNodes(selectedNodes)
+        setEdges(selectedEdges)
+    }, [selectedNodes, selectedEdges])
+
     const onConnect = useCallback(
         (connection: Connection) => {
             setEdges((oldEdges) => addEdge(connection, oldEdges));
@@ -77,7 +83,7 @@ export default function Flow() {
 
                 return currentEdges.filter(
                     (edge) =>
-                        !deleted.some(
+                        !deleted?.some(
                             (node) =>
                                 edge.source === node.id || edge.target === node.id
                         )
@@ -89,10 +95,7 @@ export default function Flow() {
 
     console.log("edges: ", edges)
 
-    useEffect(() => {
-        setNodes(selectedNodes)
-        setEdges(selectedEdges)
-    }, [selectedNodes, selectedEdges])
+
 
 
 
@@ -114,7 +117,7 @@ export default function Flow() {
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}
                 nodeTypes={nodeTypes}
-                edgeTypes={edgeTypes}
+                // edgeTypes={edgeTypes}
                 fitView
             >
                 <Background color='white' variant={BackgroundVariant.Dots} />

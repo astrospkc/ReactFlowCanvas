@@ -129,7 +129,6 @@ export default function TopBar() {
 
             {/* RIGHT */}
             <div className="flex items-center gap-2 border border-gray-600 rounded-lg p-1">
-
                 {/* Desktop actions */}
                 <div className="hidden md:flex items-center gap-2">
                     <ActionButtons dark={dark} setDark={setDark} />
