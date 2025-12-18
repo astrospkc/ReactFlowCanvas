@@ -1,23 +1,22 @@
 import { useCallback, useEffect } from 'react';
 import TopBar from '@/layout/TopBar.tsx';
 import LeftRail from '@/layout/LeftRail.tsx';
-import { initialEdges } from '@/canvas/edges.ts';
 import {
     ReactFlow,
-    type OnConnect,
     addEdge,
     useNodesState,
     useEdgesState,
     Background,
     BackgroundVariant,
     type Connection,
+    getIncomers,
+    getOutgoers,
+    getConnectedEdges,
+    type Node,
 
 } from '@xyflow/react';
 
 import { ServiceNode } from '../components/nodes/ServiceNode.tsx';
-
-import { initialNodes } from './nodes.tsx';
-
 import { DataEdge } from '../components/data-edge.tsx';
 import { useNodeStore } from '@/store/useNodeStore.ts';
 
@@ -42,6 +41,51 @@ export default function Flow() {
         },
         [setEdges],
     );
+    const onNodesDelete = useCallback(
+        (deleted: Node[]) => {
+            setEdges((currentEdges) => {
+                setNodes((currentNodes) => {
+                    let remainingNodes = [...currentNodes]
+
+                    let nextEdges = deleted.reduce((acc, node) => {
+                        const incomers = getIncomers(node, remainingNodes, acc)
+                        const outgoers = getOutgoers(node, remainingNodes, acc)
+                        const connectedEdges = getConnectedEdges([node], acc)
+
+                        const remainingEdges = acc.filter(
+                            (edge) => !connectedEdges.includes(edge)
+                        )
+
+                        const createdEdges = incomers.flatMap(({ id: source }) =>
+                            outgoers.map(({ id: target }) => ({
+                                id: `${source}->${target}`,
+                                source,
+                                target,
+                            }))
+                        )
+
+                        remainingNodes = remainingNodes.filter(
+                            (rn) => rn.id !== node.id
+                        )
+
+                        return [...remainingEdges, ...createdEdges]
+                    }, currentEdges)
+
+                    return remainingNodes
+                })
+
+                return currentEdges.filter(
+                    (edge) =>
+                        !deleted.some(
+                            (node) =>
+                                edge.source === node.id || edge.target === node.id
+                        )
+                )
+            })
+        },
+        [setEdges, setNodes]
+    )
+
     console.log("edges: ", edges)
 
     useEffect(() => {
@@ -63,6 +107,7 @@ export default function Flow() {
                 onNodeClick={(e) => console.log(e)}
                 nodes={nodes}
                 edges={edges}
+                onNodesDelete={onNodesDelete}
                 onNodesChange={onNodesChange}
                 onEdgesChange={onEdgesChange}
                 onConnect={onConnect}

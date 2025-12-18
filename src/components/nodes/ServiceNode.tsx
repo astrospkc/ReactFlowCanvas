@@ -22,7 +22,7 @@ import type { ServiceNode } from '@/types/types';
 export function ServiceNode({ id, data }: NodeProps<ServiceNode>) {
 
     console.log("data in app node: ", data.service)
-    const { updateNodeData, setNodes } = useReactFlow();
+    // const { updateNodeData, setNodes } = useReactFlow();
 
     return (
         <>
