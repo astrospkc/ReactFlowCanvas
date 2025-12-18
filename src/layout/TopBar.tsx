@@ -8,7 +8,7 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { ChevronRight, Lightbulb, Settings, Rocket, Folder, Puzzle, ChevronDown, MoreHorizontal, Share2, Moon, Sun, Hamburger, Menu, } from "lucide-react"
+import { ChevronRight, Lightbulb, Settings, Rocket, Folder, Puzzle, ChevronDown, MoreHorizontal, Share2, Moon, Sun, Menu, } from "lucide-react"
 import { useAppsQuery } from "@/queries/apps.query"
 import { useAppStore } from "@/store/useAppStore"
 import { useAppGraphsQuery } from "@/queries/graphs.query"

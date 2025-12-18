@@ -17,7 +17,7 @@ import {
 } from '@xyflow/react';
 
 import { ServiceNode } from '../components/nodes/ServiceNode.tsx';
-import { DataEdge } from '../components/data-edge.tsx';
+// import { DataEdge } from '../components/data-edge.tsx';
 import { useGraphStore } from '@/store/useGraphStore.ts';
 
 
@@ -26,9 +26,9 @@ const nodeTypes = {
 
 };
 
-const edgeTypes = {
-    data: DataEdge,
-};
+// const edgeTypes = {
+//     data: DataEdge,
+// };
 
 
 
