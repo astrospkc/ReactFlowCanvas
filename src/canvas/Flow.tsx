@@ -10,6 +10,7 @@ import {
     useEdgesState,
     Background,
     BackgroundVariant,
+    type Connection,
 
 } from '@xyflow/react';
 
@@ -34,20 +35,20 @@ const edgeTypes = {
 export default function Flow() {
     const { selectedNodes } = useNodeStore()
     const [nodes, setNodes, onNodesChange] = useNodesState(selectedNodes);
-    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+    const onConnect = useCallback(
+        (connection: Connection) => {
+            setEdges((oldEdges) => addEdge(connection, oldEdges));
+        },
+        [setEdges],
+    );
+    console.log("edges: ", edges)
 
     useEffect(() => {
         setNodes(selectedNodes)
     }, [selectedNodes])
 
-    const onConnect: OnConnect = useCallback(
-        (params) => {
-            setEdges((edges) =>
-                addEdge({ type: 'data', data: { key: 'value' }, ...params }, edges),
-            );
-        },
-        [setEdges],
-    );
+
 
 
     return (

@@ -24,31 +24,16 @@ export function ServiceNode({ id, data }: NodeProps<ServiceNode>) {
     console.log("data in app node: ", data.service)
     const { updateNodeData, setNodes } = useReactFlow();
 
-    const handleReset = useCallback(() => {
-        console.log("reset")
-    }, [id, updateNodeData]);
-
-    const handleDelete = useCallback(() => {
-        setNodes((nodes) => nodes.filter((node) => node.id !== id));
-    }, [id, setNodes]);
-
-    const handleIncr = useCallback(() => {
-        console.log("incre")
-    }, []);
-
-    const handleDecr = useCallback(() => {
-        console.log("decr")
-    }, []);
-
     return (
         <>
             <BaseNode className="bg-black text-white w-[340px] rounded-xl">
                 {/* Header */}
+                <LabeledHandle title="in" type="target" position={Position.Top} />
                 <BaseNodeHeader className="flex items-center justify-between border-b border-neutral-800">
                     <div className="flex items-center gap-2">
                         <div
                             className="w-7 h-7 flex items-center justify-center rounded"
-                        // style={{ backgroundColor: data.iconBg }}
+
                         >
                             {data.icon}
                         </div>
@@ -125,7 +110,7 @@ export function ServiceNode({ id, data }: NodeProps<ServiceNode>) {
                         {data.provider.toUpperCase()}
                     </span>
 
-                    <LabeledHandle title="out" type="source" position={Position.Right} />
+                    <LabeledHandle title="out" type="source" position={Position.Bottom} />
                 </BaseNodeFooter>
             </BaseNode>
         </>
