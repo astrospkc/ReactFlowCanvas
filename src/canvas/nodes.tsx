@@ -13,7 +13,7 @@ import { SiPostgresql, SiMongodb } from "react-icons/si"
 
 export const initialNodes: Node[] = [
   {
-    id: 'a',
+    id: "a",
     type: 'app',
     data: {
       icon: <FaGithub />,

@@ -15,11 +15,11 @@ import { EllipsisVertical } from 'lucide-react';
 import { Button } from '../ui/button';
 import clsx from "clsx"
 
-import type { AppNode } from '@/types/types';
+import type { ServiceNode } from '@/types/types';
 
 
 
-export function AppNode({ id, data }: NodeProps<AppNode>) {
+export function ServiceNode({ id, data }: NodeProps<ServiceNode>) {
 
     console.log("data in app node: ", data.service)
     const { updateNodeData, setNodes } = useReactFlow();

@@ -13,14 +13,14 @@ import {
 
 } from '@xyflow/react';
 
-import { AppNode } from '../components/nodes/app-node.tsx';
+import { ServiceNode } from '../components/nodes/ServiceNode.tsx';
 
 import { initialNodes } from './nodes.tsx';
 
 import { DataEdge } from '../components/data-edge.tsx';
 
 const nodeTypes = {
-    app: AppNode,
+    app: ServiceNode,
 
 };
 
@@ -31,7 +31,7 @@ const edgeTypes = {
 
 
 export default function Flow() {
-    const [nodes, , onNodesChange] = useNodesState([]);
+    const [nodes, , onNodesChange] = useNodesState(initialNodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
     const onConnect: OnConnect = useCallback(
@@ -45,13 +45,14 @@ export default function Flow() {
 
     return (
         <div className="relative h-screen w-screen p-8 bg-slate-950 rounded-xl">
-            <div className="absolute  z-10 top-0 left-0 w-full h-full">
+            <div className="absolute  z-10 top-0 left-0 w-full h-full pointer-events-none">
                 <TopBar />
             </div>
-            <div className='absolute z-10 w-fit  top-[20%] left-10'>
+            <div className='absolute z-10 w-fit  top-[20%] left-10 pointer-events-none'>
                 <LeftRail />
             </div>
             <ReactFlow
+                onNodeClick={(e) => console.log(e)}
                 nodes={nodes}
                 edges={edges}
                 onNodesChange={onNodesChange}

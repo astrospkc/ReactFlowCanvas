@@ -14,7 +14,7 @@ import { useAppStore } from "@/store/useAppStore"
 
 export default function TopBar() {
     const [dark, setDark] = useState(true)
-    const { setSelectedApp } = useAppStore()
+    const { setSelectedApp, selectedApp } = useAppStore()
     const iconMap: Record<number, any> = {
         1: Lightbulb,
         2: Settings,
@@ -22,7 +22,7 @@ export default function TopBar() {
         4: Folder,
         5: Puzzle,
     }
-    const colors = ['blue', 'green', 'red', 'yellow', 'purple']
+    const colors = ['#6366F1', '#8B5CF6', '#F87171', '#EC4899', '#7C3AED']
 
     type App = {
         id: string,
@@ -47,9 +47,8 @@ export default function TopBar() {
         // api call is made to set the graph data
     }
 
-
     return (
-        <header className="h-14  my-4 bg-slate-950 w-full flex items-center justify-between px-4 ">
+        <header className="h-14  my-4 bg-slate-950 w-full flex items-center justify-between px-4 pointer-events-auto ">
 
             {/* LEFT */}
             <div className="flex items-center gap-3 border-2 border-gray-600 rounded-lg p-1">
@@ -86,17 +85,18 @@ export default function TopBar() {
                                 apps.data.length > 0 && apps.data.map((app: App) => {
                                     const Icon = iconMap[Math.floor(Math.random() * 5) + 1]
                                     const color = colors[Math.floor(Math.random() * 5) + 1]
+                                    const backgroundColor = `bg-${color}`
                                     return (
                                         <DropdownMenuItem
                                             key={app.id}
 
-                                            className="flex items-center justify-between cursor-pointer focus:bg-neutral-800"
+                                            className="flex items-center justify-between cursor-pointer my-4 focus:bg-neutral-800 bg-transparent hover:shadow-sm hover:shadow-violet-300/60"
                                         >
                                             <div
                                                 onClick={() => handleSelectApp(app.id)}
-                                                className="flex items-center gap-3 hover:shadow-lg hover:shadow-green-300">
+                                                className="flex items-center gap-3 ">
                                                 {/* <div className="w-10 h-10 text-2xl rounded-lg bg-neutral-800 flex items-center justify-center"> */}
-                                                <Icon className={`w-fit p-1 ${color} text-white object-contain`} />
+                                                <Icon className={`w-fit p-1 text-4xl ${backgroundColor} text-white object-contain`} />
                                                 {/* </div> */}
                                                 <span className="text-sm">{app.name}</span>
                                             </div>

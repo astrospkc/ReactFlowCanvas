@@ -6,7 +6,7 @@ export interface useAppStoreType {
 }
 
 
-export type AppNode = Node<{
+export type ServiceNode = Node<{
     icon: React.ReactNode,
     service: string,
     rate: string,
@@ -53,4 +53,15 @@ export type Details = {
         type: "healthy" | "unhealthy"
     },
     provider: string
+}
+
+
+export type UseNodeStoreType = {
+    selectedNode: string,
+    setSelectedNode: (node: string) => void,
+    nodes: string[],
+    setNodes: (nodes: string[]) => void,
+    addNode: (node: string) => void,
+    removeNode: (node: string) => void,
+    updateNode: (node: string) => void
 }
