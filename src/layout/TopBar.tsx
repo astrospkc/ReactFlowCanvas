@@ -85,11 +85,15 @@ export default function TopBar() {
     }, [appGraph?.data?.edges, appGraph?.data?.nodes])
 
     if (isLoading) return <div>Loading...</div>
-    if (isError) return <div>Error: {isError}</div>
+    if (isError) {
+        alert(isError)
+    }
 
 
     if (graphLoading) return <div>Loading...</div>
-    if (graphError) return <div>Error: {graphError}</div>
+    if (graphError) {
+        alert(graphError)
+    }
 
 
     return (
