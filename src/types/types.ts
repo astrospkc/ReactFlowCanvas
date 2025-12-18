@@ -1,6 +1,6 @@
 import type { Node } from "@xyflow/react";
 
-export interface UiStoreType {
+export interface useAppStoreType {
     selectedApp: string,
     setSelectedApp: (app: string) => void
 }

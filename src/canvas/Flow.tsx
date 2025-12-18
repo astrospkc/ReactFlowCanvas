@@ -31,7 +31,7 @@ const edgeTypes = {
 
 
 export default function Flow() {
-    const [nodes, , onNodesChange] = useNodesState(initialNodes);
+    const [nodes, , onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
     const onConnect: OnConnect = useCallback(

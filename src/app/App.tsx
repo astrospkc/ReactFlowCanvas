@@ -10,17 +10,20 @@ export default function App() {
   // server.listen()
 
   useEffect(() => {
-    const fetchnodes = async () => {
+    const fetchUser = async () => {
       const response = await fetch('/api/user')
       const data = await response.json()
       console.log(data)
     }
-    fetchnodes()
+    fetchUser()
   }, [])
 
   return (
     <>
-      <Flow />
+      <div>
+        <Flow />
+      </div>
+
     </>
   )
 }

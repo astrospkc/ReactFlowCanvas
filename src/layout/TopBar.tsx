@@ -9,25 +9,43 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { ChevronRight, Lightbulb, Settings, Rocket, Folder, Puzzle, ChevronDown, MoreHorizontal, Share2, Moon, Sun, } from "lucide-react"
+import { useAppsQuery } from "@/queries/apps.query"
+import { useAppStore } from "@/store/useAppStore"
 
 export default function TopBar() {
     const [dark, setDark] = useState(true)
-
-
-    const iconMap: Record<string, any> = {
-        bulb: Lightbulb,
-        settings: Settings,
-        rocket: Rocket,
-        folder: Folder,
-        puzzle: Puzzle,
+    const { setSelectedApp } = useAppStore()
+    const iconMap: Record<number, any> = {
+        1: Lightbulb,
+        2: Settings,
+        3: Rocket,
+        4: Folder,
+        5: Puzzle,
     }
-    const apps = [
-        { id: "1", name: "supertokens-golang", icon: "bulb", color: "bg-[#6366F1] " },
-        { id: "2", name: "supertokens-java", icon: "settings", color: "bg-[#8B5CF6]" },
-        { id: "3", name: "supertokens-python", icon: "rocket", color: "bg-[#F87171]" },
-        { id: "4", name: "supertokens-ruby", icon: "folder", color: "bg-[#EC4899]" },
-        { id: "5", name: "supertokens-go", icon: "puzzle", color: "bg-[#7C3AED]" },
-    ]
+    const colors = ['blue', 'green', 'red', 'yellow', 'purple']
+
+    type App = {
+        id: string,
+        name: string
+    }
+
+    // const apps = [
+    //     { id: '1', name: 'supertokens-golang' },
+    //     { id: '2', name: 'supertokens-java' },
+    //     { id: '3', name: 'supertokens-python' },
+    //     { id: '4', name: 'supertokens-js' },
+    // ]
+
+    const { data: apps, isLoading, isError } = useAppsQuery()
+    console.log("data in app: ", apps)
+
+    if (isLoading) return <div>Loading...</div>
+    if (isError) return <div>Error: {isError}</div>
+
+    const handleSelectApp = (appId: string) => {
+        setSelectedApp(appId)
+        // api call is made to set the graph data
+    }
 
 
     return (
@@ -65,17 +83,20 @@ export default function TopBar() {
                         </div>
                         <div>
                             {
-                                apps.map((app) => {
-                                    const Icon = iconMap[app.icon]
+                                apps.data.length > 0 && apps.data.map((app: App) => {
+                                    const Icon = iconMap[Math.floor(Math.random() * 5) + 1]
+                                    const color = colors[Math.floor(Math.random() * 5) + 1]
                                     return (
                                         <DropdownMenuItem
                                             key={app.id}
 
                                             className="flex items-center justify-between cursor-pointer focus:bg-neutral-800"
                                         >
-                                            <div className="flex items-center gap-3">
+                                            <div
+                                                onClick={() => handleSelectApp(app.id)}
+                                                className="flex items-center gap-3 hover:shadow-lg hover:shadow-green-300">
                                                 {/* <div className="w-10 h-10 text-2xl rounded-lg bg-neutral-800 flex items-center justify-center"> */}
-                                                <Icon className={`w-fit p-1 ${app.color} text-white object-contain`} />
+                                                <Icon className={`w-fit p-1 ${color} text-white object-contain`} />
                                                 {/* </div> */}
                                                 <span className="text-sm">{app.name}</span>
                                             </div>

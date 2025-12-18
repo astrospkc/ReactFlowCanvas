@@ -1,4 +1,4 @@
-import { useUiStore } from "@/store/useUiStore"
+
 import {
     Boxes,
     LayoutGrid,
@@ -25,10 +25,6 @@ const navItems = [
 ]
 
 export default function LeftRail() {
-    const { setSelectedApp, selectedApp } = useUiStore()
-    const handleSelectApp = (app: string) => {
-        setSelectedApp(app)
-    }
 
     return (
         <aside className="h-full w-14 flex flex-col items-center bg-black rounded-lg py-3 border-r border-border">
@@ -40,7 +36,7 @@ export default function LeftRail() {
                             <TooltipTrigger asChild>
                                 <h1
 
-                                    onClick={() => handleSelectApp(item.id)}
+
                                     className="hover:shadow-lg hover:shadow-green-300 hover:cursor-pointer p-2 rounded-lg"
 
                                 >

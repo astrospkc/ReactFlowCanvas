@@ -2,9 +2,7 @@ import type { UiStoreType } from '@/types/types'
 import { create } from 'zustand'
 
 
-
-
-export const useUiStore = create<UiStoreType>((set) => ({
+export const useAppStore = create<useAppStoreType>((set) => ({
     selectedApp: "",
     setSelectedApp: (app: string) => set({ selectedApp: app }),
 }))
